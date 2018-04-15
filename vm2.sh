@@ -23,7 +23,7 @@ apt update && apt install apache2 -y
 
 #### Apache cogigure ####
 echo "Listen $APACHE_VLAN_IP:80" > /etc/apache2/ports.conf
-systemctl restart apache2
+cat /proc/net/vlan/config
 
 ################################
 
