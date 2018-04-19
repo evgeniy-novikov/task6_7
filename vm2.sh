@@ -14,7 +14,7 @@ echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
 VLAN_NAME=$INTERNAL_IF.$VLAN
 ip link add link $INTERNAL_IF name $VLAN_NAME type vlan id $VLAN
-ip addr add "$APACHE_VLAN_IP/24" dev $VLAN_NAME
+ip addr add "$APACHE_VLAN_IP | sed 's/\/.*$//g'" dev $VLAN_NAME
 ip link set $VLAN_NAME up
 
 #### install apache ####

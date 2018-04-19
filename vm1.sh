@@ -24,12 +24,6 @@ ip link set $VLAN_NAME up
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -o $EXTERNAL_IF -j MASQUERADE
 
-########## SSL ######
-
-openssl genrsa -out /etc/ssl/certs/root-ca.key 4096
-openssl req -x509 -new -key /etc/ssl/certs/root-ca.key -days 365 -out /etc/ssl/certs/root-ca.crt -subj "/C=UA/L=Kharkov/O=HOME/OU=IT/CN=vm1"
-openssl genrsa -out /etc/ssl/certs/web.key 4096
-
 ################# CERT CREATE CONFIG ##########################
 echo "
 [ req ]
@@ -37,7 +31,7 @@ default_bits                = 4096
 default_keyfile             = privkey.pem
 distinguished_name          = req_distinguished_name
 req_extensions              = v3_req
- 
+
 [ req_distinguished_name ]
 countryName                 = Country Name (2 letter code)
 countryName_default         = UK
@@ -50,12 +44,12 @@ organizationName_default    = Example UK
 commonName                  = Common Name (eg, YOUR name)
 commonName_default          = one.test.app.example.net
 commonName_max              = 64
- 
+
 [ v3_req ]
 basicConstraints            = CA:FALSE
 keyUsage                    = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName              = @alt_names
- 
+
 [alt_names]
 IP.1   = $CUR_IP
 DNS.1   = $HOSTNAME" > /usr/lib/ssl/openssl-san.cnf 
@@ -65,11 +59,9 @@ DNS.1   = $HOSTNAME" > /usr/lib/ssl/openssl-san.cnf
 openssl genrsa -out /etc/ssl/certs/root-ca.key 4096
 openssl req -x509 -new -key /etc/ssl/certs/root-ca.key -days 365 -out /etc/ssl/certs/root-ca.crt -subj "/C=UA/L=Kharkov/O=HOME/OU=IT/CN=vm1"
 openssl genrsa -out /etc/ssl/certs/web.key 4096
-
-
-##########################################################
 openssl req -new -key /etc/ssl/certs/web.key -out /etc/ssl/certs/web.csr -config /usr/lib/ssl/openssl-san.cnf -subj "/C=UA/L=Kharkov/O=DLNet/OU=NOC/CN=$HOSTNAME"
 openssl x509 -req -in /etc/ssl/certs/web.csr -CA /etc/ssl/certs/root-ca.crt  -CAkey /etc/ssl/certs/root-ca.key -CAcreateserial -out /etc/ssl/certs/web.crt -days 365 -extensions v3_req -extfile /usr/lib/ssl/openssl-san.cnf
+
 cat /etc/ssl/certs/root-ca.crt >> /etc/ssl/certs/web.crt
 ###############################################################
 
