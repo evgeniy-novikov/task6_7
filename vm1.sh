@@ -4,6 +4,7 @@ DIRSH=`dirname $0`
 
 cd $DIRSH
 source vm1.config
+HOSTNAME='vm1'
 
 if [ "$EXT_IP" != "DHCP" ]; then
 
@@ -23,6 +24,9 @@ ip link set $VLAN_NAME up
 
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -o $EXTERNAL_IF -j MASQUERADE
+
+CUR_IP=$(ip -4 a | grep $EXTERNAL_IF | grep inet | awk '{print $2}' | sed 's/\/.*$//g')
+echo $CUR_IP
 
 ################# CERT CREATE CONFIG ##########################
 echo "
