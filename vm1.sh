@@ -97,9 +97,10 @@ ssl_certificate_key /etc/ssl/certs/web.key;
 } " >> /etc/nginx/sites-available/$HOSTNAME
 ln -s /etc/nginx/sites-available/$HOSTNAME /etc/nginx/sites-enabled/$HOSTNAME
 
+/etc/init.d/nginx restart
+
 ##################### APLY ##################################
-echo "###### done ######" && systemctl restart nginx
+echo "###### done ######" 
 #############################################################
 
 
-#echo "nameserver 8.8.4.4" >> /etc/resolv.conf
