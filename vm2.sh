@@ -9,7 +9,7 @@ ip addr add $INT_IP dev $INTERNAL_IF
 ip link set $INTERNAL_IF up
 ip ro add default via $GW_IP dev $INTERNAL_IF
 
-echo "nameserver $GW_IP" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
 VLAN_NAME=$INTERNAL_IF.$VLAN
