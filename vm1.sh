@@ -10,7 +10,7 @@ if [ "$EXT_IP" != "DHCP" ]; then
 
 	ip addr add $EXT_IP dev $EXTERNAL_IF
 	ip ro add default via $EXT_GW dev $EXTERNAL_IF
-	echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+	echo "nameserver 8.8.8.8" > /etc/resolv.conf
 	echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 #	echo "$EXT_IP"
 fi
