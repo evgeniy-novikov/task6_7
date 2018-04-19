@@ -61,9 +61,9 @@ DNS.1   = $HOSTNAME" > /usr/lib/ssl/openssl-san.cnf
 ########## SSL ######
 
 openssl genrsa -out /etc/ssl/certs/root-ca.key 4096
-openssl req -x509 -new -key /etc/ssl/certs/root-ca.key -days 365 -out /etc/ssl/certs/root-ca.crt -subj "/C=UA/L=Kharkov/O=HOME/OU=IT/CN=vm1"
+openssl req -x509 -new -key /etc/ssl/certs/root-ca.key -days 365 -out /etc/ssl/certs/root-ca.crt -subj "/C=UA/L=Kharkov/O=HOME/OU=IT/CN=$HOSTNAME"
 openssl genrsa -out /etc/ssl/certs/web.key 4096
-openssl req -new -key /etc/ssl/certs/web.key -out /etc/ssl/certs/web.csr -config /usr/lib/ssl/openssl-san.cnf -subj "/C=UA/L=Kharkov/O=DLNet/OU=NOC/CN=$HOSTNAME"
+openssl req -new -key /etc/ssl/certs/web.key -out /etc/ssl/certs/web.csr -config /usr/lib/ssl/openssl-san.cnf -subj "/C=UA/L=Kharkov/O=HOME/OU=IT/CN=$HOSTNAME"
 openssl x509 -req -in /etc/ssl/certs/web.csr -CA /etc/ssl/certs/root-ca.crt  -CAkey /etc/ssl/certs/root-ca.key -CAcreateserial -out /etc/ssl/certs/web.crt -days 365 -extensions v3_req -extfile /usr/lib/ssl/openssl-san.cnf
 
 cat /etc/ssl/certs/root-ca.crt >> /etc/ssl/certs/web.crt
